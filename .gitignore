@@ -1,0 +1,23 @@
+# Python System
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environments (PENTING: Biar folder gede ga ikut ke-upload)
+.venv/
+venv/
+env/
+ENV/
+
+# Data & Notebooks (Opsional, kalau gamau dataset mentah ke-upload)
+# *.xlsx
+# *.csv
+
+# IDE
+.vscode/
+.idea/
+
+# Distribution / Model
+# genjutsu_model.pkl
