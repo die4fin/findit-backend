@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -7,6 +8,7 @@ import pickle
 
 app = FastAPI()
 
+# Biar frontend Vercel lu dapet akses
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -14,13 +16,17 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 @app.get("/")
 def root():
-    return {"status": "FINDIT API is Online"}
+    return {"status": "FINDIT API is Online on Hugging Face 🚀"}
 
-# Load AI dan Kamus Kategori
+# ---> FIX: Load AI Pake Absolute Path Biar Aman di Cloud <---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, 'genjutsu_model.pkl')
+
 try:
-    with open('genjutsu_model.pkl', 'rb') as f:
+    with open(MODEL_PATH, 'rb') as f:
         data = pickle.load(f)
         model = data['model']
         categories_dict = data['categories']
@@ -78,7 +84,6 @@ def predict_draft(draft: DraftData):
                 
     input_df = pd.DataFrame(data_dict)
     
-    # ---> INI DIA FIX-NYA! <---
     # Urutkan secara paksa biar susunan kolomnya identik 100% sama pas training
     input_df = input_df[features]
     
